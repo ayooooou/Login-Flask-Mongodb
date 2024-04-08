@@ -13,7 +13,7 @@ class User(UserMixin):
 
 @app.route("/")
 def home_page():
-    return render_template("home.html",)
+    return render_template("home.html",current_user=current_user)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register_page():
@@ -32,7 +32,7 @@ def register_page():
             user = {'email': email, 'username': username, 'password': password}
             mongo.db.user.insert_one(user)
             return redirect(url_for('login_page'))
-    return render_template("register.html",error_message=error_message)
+    return render_template("register.html",error_message=error_message,current_user=current_user)
 
 @app.route("/login", methods=['GET','POST'])
 def login_page():
@@ -47,12 +47,12 @@ def login_page():
             user = User()  #  實作User類別
             user.id = username #為了讓 Flask-Login 知道哪個用戶已經登入
             login_user(user)   
-            return redirect(url_for('protected_page'))
+            return render_template("home.html",current_user=current_user)
         elif user_find:
             error_message = '\nWrong password'
         else:
             error_message = "\nUnknown username"
-        return render_template("login.html",error_message=error_message)
+        return render_template("login.html",error_message=error_message,current_user=current_user)
     return render_template("login.html")
 
 
