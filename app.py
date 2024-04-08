@@ -69,18 +69,22 @@ def user_loader(username):
 
 @app.route('/logout')  
 def logout():  
-    logout_user()  
-    return 'Logged out'
+    if current_user.is_active: 
+        logout_user()  
+        return 'Logged out'
+    else:
+        return "you aren't login"
+    
 
+#登入狀態
 @app.route('/protected')  
 @login_required  
 def protected():  
-    """  
- 在login_user(user)之後我們就可以透過current_user.id來取得用戶的相關資訊了  
- """   
     #  current_user確實的取得了登錄狀態
     if current_user.is_active:  
         return 'Logged in as: ' + current_user.id + 'Login is_active:True'
+    else:
+        return "you aren't login"
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)
