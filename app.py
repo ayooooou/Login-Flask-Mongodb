@@ -1,9 +1,13 @@
 from flask import Flask, request, render_template,redirect,url_for
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/test"
+load_dotenv()
+app.config["MONGO_URI"] = f"mongodb+srv://yoyokuo1129:{os.getenv('config_MONGO_URI')}@cluster0.zw1xmlv.mongodb.net/user"
+#app.config["MONGO_URI"] = "mongodb+srv://yoyokuo1129:dLNVIhqdJMclLrec@cluster0.zw1xmlv.mongodb.net/user"
 app.secret_key = 'hello,wood'
 mongo = PyMongo(app)
 login_manager = LoginManager()
