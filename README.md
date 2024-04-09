@@ -54,4 +54,3 @@ mongo.db.user.find().sort('name', pymongo.ASCENDING)
 
  偏移，限制
 mongo.db.user.find().sort('age', 18).skip(2).limit(3)
-
