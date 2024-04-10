@@ -14,8 +14,8 @@
             <a href="/login">登入</a>
             <a href="/logout">登出</a>
             <a href="/protected">登入專區</a>
-            {% if current_user.is_authenticated %}
-                <p>現在狀態:已登入{{ current_user.id}}</p>
+            {% if session.get('state') == "login" %}
+                <p>現在狀態:已登入{{ session.get('username') }}</p>
             {% else %}
                 <p>現在狀態:尚未登入</p>
             {% endif %}
