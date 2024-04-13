@@ -25,6 +25,9 @@ is_active
 帳號啟用並且登入成功的時候return True 
 可以使用 is_active 標誌阻止用戶登錄，而無需改變其密碼、刪除其帳戶或執行其他重大操作
 
+
+
+
 #### mongodb一些函示
 資料來源 https://www.cnblogs.com/shenh/p/16784599.html
 
@@ -54,3 +57,15 @@ mongo.db.user.find().sort('name', pymongo.ASCENDING)
 
  偏移，限制
 mongo.db.user.find().sort('age', 18).skip(2).limit(3)
+
+
+
+#### jQuery 選擇器
+基本選擇器
+
+$ ("element")：選出所有該 element 的節點
+例如：$(“p”) ：選出所有 <p> </p>的節點
+
+$(“#divId”)：選出所有 <div id=”divId”></div> 的節點
+
+$(“.divClass”)：選出所有 <div class=”divClass”></div> 的節點
