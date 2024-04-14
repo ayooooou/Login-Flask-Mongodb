@@ -85,16 +85,17 @@ def joined():
     
 @socketio.on('command_event', namespace='/shell')
 def command_action(data):
-    try:
-        command_txt = "wsl "+data['msg']
+    try: 
+        command_txt = "wsl "+data['msg'] #如果有wsl就用wsl
+        emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
     except:
         command_txt = data['msg']
-    emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
+        emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
     try:
-        b = subprocess.check_output(command_txt, shell=True).decode('utf-8',"replace") #bytes type -> .decode ; shell=True -> environment variable expansions and file globs
+        string = subprocess.check_output(command_txt, shell=True).decode('utf-8',"replace") #bytes type -> .decode ; shell=True -> environment variable expansions and file globs
     except Exception as error: #error_message
-        b = str(error)
-    emit('show', {'msg': b})
+        string = str(error)
+    emit('show', {'msg': string})
 
 if __name__ == '__main__':
     socketio.run(app,allow_unsafe_werkzeug=True)
