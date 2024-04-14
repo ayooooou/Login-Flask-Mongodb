@@ -85,16 +85,22 @@ def joined():
     
 @socketio.on('command_event', namespace='/shell')
 def command_action(data):
-    try: 
-        command_txt = "wsl "+data['msg'] #如果有wsl就用wsl
+    try: #wsl
+        command_txt = "wsl "+data['msg'] 
         emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
-    except:
+    except: #system
         command_txt = data['msg']
-        emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
-    try:
-        string = subprocess.check_output(command_txt, shell=True).decode('utf-8',"replace") #bytes type -> .decode ; shell=True -> environment variable expansions and file globs
-    except Exception as error: #error_message
-        string = str(error)
+        emit('show', {'msg': '$ ' + data['msg']})
+
+    if command_txt.startswith('cd ') or command_txt.startswith('wsl cd '):
+            directory = command_txt[3:] if command_txt.startswith('cd ') else command_txt[7:]
+            os.chdir(directory)
+            string = subprocess.check_output("wsl pwd", shell=True).decode()
+    else:
+        try:
+            string = subprocess.check_output(command_txt, shell=True).decode('utf-8',"replace") #bytes type -> .decode ; shell=True -> environment variable expansions and file globs
+        except Exception as error: #error_message
+            string = str(error)
     emit('show', {'msg': string})
 
 if __name__ == '__main__':
