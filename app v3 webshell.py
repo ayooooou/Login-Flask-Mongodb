@@ -95,8 +95,11 @@ def command_action(data):
 
     if command_txt.startswith('cd ') or command_txt.startswith('wsl cd '):
             directory = command_txt[3:] if command_txt.startswith('cd ') else command_txt[7:]
-            os.chdir(directory)
-            string = subprocess.check_output("wsl pwd", shell=True).decode()
+            try:
+                os.chdir(directory)
+                string = subprocess.check_output("wsl pwd", shell=True).decode()
+            except FileNotFoundError as error: #error_message
+                string = str(error)
     else:
         try:
             string = subprocess.check_output(command_txt, shell=True).decode('utf-8',"replace") #bytes type -> .decode ; shell=True -> environment variable expansions and file globs
