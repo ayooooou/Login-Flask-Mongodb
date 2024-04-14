@@ -85,12 +85,13 @@ def joined():
     
 @socketio.on('command_event', namespace='/shell')
 def command_action(data):
-    try: #wsl
-        command_txt = "wsl "+data['msg'] 
-        emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
-    except: #system
-        command_txt = data['msg']
-        emit('show', {'msg': '$ ' + data['msg']})
+    #wsl
+    command_txt = "wsl "+data['msg'] 
+    emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
+    
+    #system
+    # command_txt = data['msg']
+    # emit('show', {'msg': '$ ' + data['msg']})
 
     if command_txt.startswith('cd ') or command_txt.startswith('wsl cd '):
             directory = command_txt[3:] if command_txt.startswith('cd ') else command_txt[7:]
