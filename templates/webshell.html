@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁</title>
+    <title>Webshell</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../static/Webshell.js"></script>
 </head>
 <body>
     <header>
@@ -21,5 +24,8 @@
             {% endif %}
         </nav>
     </header>   
+    <h2>Webshell</h2>
+        <textarea readonly id="shell" cols="115" rows="20"></textarea><br><br>
+        <input id="command_box" size="120" placeholder="Enter the command"><br><br>
 </body>
 </html>
