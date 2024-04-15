@@ -94,8 +94,8 @@ def command_action(data):
     # emit('show', {'msg': '$ ' + data['msg']})
 
     if command_txt.startswith('cd ') or command_txt.startswith('wsl cd '):
-            directory = command_txt[3:] if command_txt.startswith('cd ') else command_txt[7:]
             try:
+                directory = command_txt[3:] if command_txt.startswith('cd ') else command_txt[7:]
                 os.chdir(directory)
                 string = subprocess.check_output("wsl pwd", shell=True).decode()
             except FileNotFoundError as error: #error_message
