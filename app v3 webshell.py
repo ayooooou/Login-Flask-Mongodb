@@ -82,16 +82,29 @@ def webshell_page():
 @socketio.on('joined', namespace='/shell')
 def joined():
     emit('status', {'msg': f"Contect User: {session.get('username')}"})
-    
+
+
+mode = 'cmd'
+@socketio.on('togglemodeButton_pressed',namespace='/shell')
+def togglemodeButton_pressed():
+    global mode
+    if mode == 'cmd':
+        mode = 'wsl'
+    elif mode == 'wsl':
+        mode = 'cmd'
+    emit("refresh_mode",{"mode":mode})
+
 @socketio.on('command_event', namespace='/shell')
 def command_action(data):
     #wsl
-    command_txt = "wsl "+data['msg'] 
-    emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
-    
+    if mode == "wsl":
+        command_txt = "wsl "+data['msg'] 
+        emit('show', {'msg': session['username'] +"@"+ socket.gethostname() + ':~# ' + data['msg']})
     #system
-    # command_txt = data['msg']
-    # emit('show', {'msg': '$ ' + data['msg']})
+    
+    if mode == "cmd":
+        command_txt = data['msg']
+        emit('show', {'msg': '$ ' + data['msg']})
 
     if command_txt.startswith('cd ') or command_txt.startswith('wsl cd '):
             try:

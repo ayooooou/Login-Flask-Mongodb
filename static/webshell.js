@@ -24,4 +24,12 @@ var socket;
             socket.emit('command_event', {msg: command});     
         }
     });
+
+    $('#togglemodeButton').click(function() {
+        socket.emit('togglemodeButton_pressed');
+    });
+
+    socket.on("refresh_mode",function(data){
+        $('#modeLabel').text("現在模式: " + data.mode)
+    })
 });
